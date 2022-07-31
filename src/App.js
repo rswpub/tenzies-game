@@ -1,6 +1,9 @@
+import React, { useState } from "react"
 import Dice from './Dice'
 
 export default function App() {
+  const [topFiveDice, setTopFiveDice] = useState(fiveNewDice())
+  const [bottomFiveDice, setBottomFiveDice] = useState(fiveNewDice())
 
   function fiveNewDice() {
     let numsArray = [];
@@ -10,14 +13,20 @@ export default function App() {
     return numsArray
   }
 
+  function rollDice() {
+    setTopFiveDice(fiveNewDice())
+    setBottomFiveDice(fiveNewDice())
+  }
+
   return (
     <main className="app-container">
       <div className="dice-row top">
-        {fiveNewDice().map(dieInfo => { return (<Dice key={dieInfo.key} value={dieInfo.dieNum} />) })}
+        {topFiveDice.map(dieInfo => <Dice key={dieInfo.key} value={dieInfo.dieNum} /> )}
       </div>
       <div className="dice-row bottom">
-        {fiveNewDice().map(dieInfo => { return (<Dice key={dieInfo.key} value={dieInfo.dieNum} />) })}
+        {bottomFiveDice.map(dieInfo => <Dice key={dieInfo.key} value={dieInfo.dieNum} /> )}
       </div>
+      <button className="roll-button" onClick={rollDice}>Roll</button>
     </main>
   );
 }
